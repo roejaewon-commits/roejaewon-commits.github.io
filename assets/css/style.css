@@ -1,0 +1,94 @@
+/* =========================================================
+   에스앤이경영컨설팅 — 공통 스타일 (4개 페이지 공용)
+   페이지별 레이아웃은 각 HTML의 style 속성에 그대로 둔다.
+   ========================================================= */
+
+/* ---------- 글꼴 ---------- */
+@font-face { font-family:'A2z'; src:url("../fonts/a2z-regular.woff2") format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'A2z'; src:url("../fonts/a2z-bold.woff2") format('woff2'); font-weight:700; font-display:swap; }
+@font-face { font-family:'A2z'; src:url("../fonts/a2z-black.woff2") format('woff2'); font-weight:900; font-display:swap; }
+
+/* ---------- 반응형 값 (화면 폭 900px 미만 = 모바일) ---------- */
+:root {
+  --flow-dir: row;                              /* 진행 단계 가로 배치 */
+  --arrow-rot: 0deg;                            /* 단계 사이 화살표 */
+  --cols-4-2: repeat(4,minmax(0,1fr));          /* 메인: 숫자 카드 */
+  --cols-4-2-1: repeat(4,minmax(0,1fr));        /* 소개: 자격 카드 */
+  --cols-3-1: repeat(3,minmax(0,1fr));          /* 서비스: 분야 카드 */
+  --cols-2-1: repeat(2,minmax(0,1fr));          /* 서비스 사례 / 상담 입력칸 */
+}
+@media (max-width: 899.98px) {
+  :root {
+    --flow-dir: column;
+    --arrow-rot: 90deg;
+    --cols-4-2: repeat(2,minmax(0,1fr));
+    --cols-4-2-1: repeat(2,minmax(0,1fr));
+    --cols-3-1: minmax(0,1fr);
+    --cols-2-1: minmax(0,1fr);
+  }
+  .only-wide { display:none !important; }
+}
+@media (max-width: 519.98px) {
+  :root { --cols-4-2-1: minmax(0,1fr); }
+}
+@media (min-width: 900px) {
+  .only-narrow, .mobile-menu { display:none !important; }
+}
+
+/* ---------- 기본 ---------- */
+html, body { height:100%; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:#0A0A0A; color:#FFFFFF; font-family:'A2z','Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif; -webkit-font-smoothing:antialiased; word-break:keep-all; }
+a { color:#FFFFFF; text-decoration:none; }
+a:hover { color:#FF6A13; }
+* { box-sizing:border-box; }
+button, input, textarea { font-family:inherit; }
+input::placeholder, textarea::placeholder { color:#6E6E6E; }
+[hidden] { display:none !important; }
+
+/* ---------- 헤더 (스크롤하거나 메뉴를 열면 배경이 채워짐) ---------- */
+.site-header { background:rgba(10,10,10,0); border-bottom:1px solid rgba(42,42,42,0); }
+.site-header.is-solid { background:rgba(10,10,10,0.92); border-bottom-color:#2A2A2A; }
+
+/* ---------- 마우스 오버 / 포커스 ---------- */
+.hover-white:hover      { color:#FFFFFF !important; }
+.hover-orange:hover     { color:#FF6A13 !important; }
+.hover-accent:hover     { background:#FF8440 !important; color:#0A0A0A !important; }
+.hover-accent-bg:hover  { background:#FF8440 !important; }
+.hover-invert:hover     { background:#FFFFFF !important; color:#0A0A0A !important; }
+.hover-line:hover       { border-color:#FFFFFF !important; }
+.hover-dim:hover        { background:#141414 !important; }
+.focus-line:focus       { border-color:#FFFFFF !important; }
+
+/* ---------- 선택 버튼 (사례 필터 · 관심 분야) ---------- */
+.chip { border:1px solid #3A3A3A; background:transparent; color:#BDBDBD; }
+.chip.is-active { border-color:#FFFFFF; background:#FFFFFF; color:#0A0A0A; }
+
+/* ---------- 수출 준비도 자가진단 체크박스 ---------- */
+.check-box { border:1px solid #5A5A5A; background:transparent; }
+[data-check].is-checked .check-box { border-color:#FF6A13; background:#FF6A13; }
+
+/* ---------- 상담 신청 폼 ---------- */
+.is-missing { border-color:#FF6A13 !important; }
+.is-missing:focus { border-color:#FFFFFF !important; }
+.form-note { color:#BDBDBD; }
+.form-note.is-error { color:#FF6A13; }
+
+/* ---------- 등장 애니메이션 ---------- */
+html.se-motion [data-reveal]:not([data-in]) { opacity:0; transform:translateY(28px); }
+html.se-motion [data-reveal] { transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+@media print { html.se-motion [data-reveal] { opacity:1 !important; transform:none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  * { animation:none !important; transition:none !important; }
+}
+
+@keyframes se-travel { from { stroke-dashoffset:1000; } to { stroke-dashoffset:0; } }
+@keyframes se-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.35; transform:scale(1.8); } }
+@keyframes se-scroll { 0% { transform:translateY(-100%); } 100% { transform:translateY(300%); } }
+@keyframes se-draw { from { stroke-dashoffset:1000; } to { stroke-dashoffset:0; } }
+@keyframes se-fade { from { opacity:0; } to { opacity:1; } }
+@keyframes se-ring { 0% { transform:scale(1); opacity:.9; } 100% { transform:scale(3.4); opacity:0; } }
+@keyframes se-zoom { from { transform:scale(1); } to { transform:scale(1.08); } }
+@keyframes se-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+@keyframes se-blink { 0%,100% { opacity:.25; } 20%,40% { opacity:1; } }
+@keyframes se-grow { 0%,100% { transform:scaleY(.4); } 35%,75% { transform:scaleY(1); } }
